@@ -1,7 +1,7 @@
 dynamic-json
 ============
 
-Allows json entries to refer to each other. Requires fewer dependencies than dynamic-pyyaml, but lacks all the nice features of the yaml specification.
+Created to allow .json files to behave a little more like configuration files. This is done by allowing json entries to refer to each other. Requires fewer dependencies than dynamic-pyyaml, but lacks all the nice features of the yaml specification.
 
 ## Installation
 
