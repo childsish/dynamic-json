@@ -2,6 +2,7 @@ import unittest
 
 from dynamic_json import load
 
+
 class TestDynamicJson(unittest.TestCase):
     def test_load(self):
         fhndl = open('cfg.json')

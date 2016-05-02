@@ -69,7 +69,6 @@ class JsonList(list):
 
 
 def load(infile):
-    infile.seek(0)
     data = json.load(infile, object_pairs_hook=JsonDict)
     data.set_as_root()
     return data
