@@ -1,12 +1,51 @@
 dynamic-json
 ============
 
-Created to allow .json files to behave a little more like configuration files. This is done by allowing json entries to refer to each other. Requires fewer dependencies than dynamic-pyyaml, but lacks all the nice features of the yaml specification.
+Dynamic-json allows entries in a json file to refer to each other. It requires no dependencies, but lacks all the nice features of the yaml specification. If you prefer yaml then see [dynamic-yaml][dynamic-yaml].
 
-## Installation
+Usage
+-----
 
-Just drop dynamic_json.py wherever you need it.
+Json files are written as they normally are. However, it's now possible to include references to other entries in the json file. An example json file could look like:
 
-## Usage
+```json
+{
+    "project_name": "hello-world",
+    "dirs": {
+        "home": "/home/user",
+        "venv": "{dirs.home}/venvs/{project_name}",
+        "bin": "{dirs.venv}/bin",
+        "data": "{dirs.venv}/data",
+        "errors": "{dirs.data}/errors",
+        "sessions": "{dirs.data}/sessions",
+        "databases": "{dirs.data}/databases"
+    },
+    "exes": {
+        "main": "{dirs.bin}/main",
+        "test": "{dirs.bin}/test"
+    }
+}
+```
 
-Examine the test and example configuration file that can be found in the repository. It should be self-explanatory.
+Reading in a json file:
+
+```python
+import dynamic_json
+
+fileobj = open()
+cfg = dynamic_json.load(fileobj)
+fileobj.close()
+```
+
+Now, the entry `cfg.dirs.venv` will resolve to `"/home/user/venvs/hello-world"`.
+
+Installation
+------------
+
+To install, simply run:
+
+```bash
+pip install git+https://github.com/childsish/dynamic-json
+```
+
+[dynamic-yaml]: https://github.com/childsish/dynamic-yaml
