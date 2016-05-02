@@ -1,41 +1,4 @@
-import json
-
 from collections import OrderedDict, Sequence, Mapping
-
-
-class JsonDict(OrderedDict):
-
-    def __init__(self, *args, **kwargs):
-        super(JsonDict, self).__init__(*args, **kwargs)
-        self.__root = self
-    
-    def __getattr__(self, key):
-        if key in self:
-            return self[key]
-        return super(JsonDict, self).__getattribute__(key)
-    
-    def __getitem__(self, key):
-        v = super(JsonDict, self).__getitem__(key)
-        if isinstance(v, basestring):
-            v = v.format(**self.__root)
-        return v
-    
-    def __setitem__(self, key, value, dict_setitem=dict.__setitem__):
-        if isinstance(value, Mapping) and not isinstance(value, JsonDict):
-            value = JsonDict(value)
-        elif isinstance(value, basestring):
-            pass
-        elif isinstance(value, Sequence) and not isinstance(value, JsonList):
-            value = JsonList(value)
-        super(JsonDict, self).__setitem__(key, value, dict_setitem)
-    
-    def set_as_root(self, root=None):
-        if root is None:
-            root = self
-        self.__root = root
-        for k, v in self.iteritems():
-            if hasattr(v, 'set_as_root'):
-                v.set_as_root(root)
 
 
 class JsonList(list):
@@ -68,7 +31,36 @@ class JsonList(list):
                 v.set_as_root(root)
 
 
-def load(infile):
-    data = json.load(infile, object_pairs_hook=JsonDict)
-    data.set_as_root()
-    return data
+class JsonDict(OrderedDict):
+
+    def __init__(self, *args, **kwargs):
+        super(JsonDict, self).__init__(*args, **kwargs)
+        self.__root = self
+
+    def __getattr__(self, key):
+        if key in self:
+            return self[key]
+        return super(JsonDict, self).__getattribute__(key)
+
+    def __getitem__(self, key):
+        v = super(JsonDict, self).__getitem__(key)
+        if isinstance(v, basestring):
+            v = v.format(**self.__root)
+        return v
+
+    def __setitem__(self, key, value, dict_setitem=dict.__setitem__):
+        if isinstance(value, Mapping) and not isinstance(value, JsonDict):
+            value = JsonDict(value)
+        elif isinstance(value, basestring):
+            pass
+        elif isinstance(value, Sequence) and not isinstance(value, JsonList):
+            value = JsonList(value)
+        super(JsonDict, self).__setitem__(key, value, dict_setitem)
+
+    def set_as_root(self, root=None):
+        if root is None:
+            root = self
+        self.__root = root
+        for k, v in self.iteritems():
+            if hasattr(v, 'set_as_root'):
+                v.set_as_root(root)
