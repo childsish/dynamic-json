@@ -7,7 +7,7 @@ from dynamic_json import load
 
 class TestYamlDict(unittest.TestCase):
     def test_dict(self):
-        config = '''{
+        config = u'''{
           "a": 1,
           "b": 2,
           "c": "a"
@@ -17,7 +17,7 @@ class TestYamlDict(unittest.TestCase):
         self.assertDictEqual({'a': 1, 'b': 2, 'c': 'a'}, res)
 
     def test_nested_dict(self):
-        config = '''{
+        config = u'''{
           "a": 1,
           "b": {
             "c": 3,
@@ -30,7 +30,7 @@ class TestYamlDict(unittest.TestCase):
         self.assertDictEqual({'a': 1, 'b': {'c': 3, 'd': 4, 'e': 'a'}}, res)
 
     def test_deeply_nested_dict(self):
-        config = '''{
+        config = u'''{
           "a": 1,
           "b": { 
             "c": 2,
@@ -48,7 +48,7 @@ class TestYamlDict(unittest.TestCase):
         self.assertDictEqual({'a': 1, 'b': {'c': 2, 'd': 3, 'e': {'f': 4, 'g': {'h': 5}}}}, res)
 
     def test_resolve_simple(self):
-        config = '''{
+        config = u'''{
           "project_name": "hello-world",
           "home_dir": "/home/user",
           "project_dir": "{home_dir}/projects/{project_name}"
@@ -61,7 +61,7 @@ class TestYamlDict(unittest.TestCase):
         self.assertEqual('/home/user/projects/hello-world', res.project_dir)
 
     def test_resolve_nested(self):
-        config = '''{
+        config = u'''{
           "project_name": "hello-world",
           "dirs": { 
             "home_dir": "/home/user",
@@ -76,7 +76,7 @@ class TestYamlDict(unittest.TestCase):
         self.assertEqual('/home/user/projects/hello-world', res.dirs.project_dir)
 
     def test_resolve_deeply_nested(self):
-        config = '''{
+        config = u'''{
           "project_name": "hello-world",
           "dirs": { 
             "home_dir": "/home/user",
@@ -98,7 +98,7 @@ class TestYamlDict(unittest.TestCase):
         self.assertEqual('/home/user/projects/hello-world/tool1-0.5-1.6666', res.dirs.tool1_output_dir)
 
     def test_resolve_simple_update(self):
-        config = '''{
+        config = u'''{
           "project_name": "hello-world",
           "dirs": { 
             "home_dir": "/home/user",
@@ -115,7 +115,7 @@ class TestYamlDict(unittest.TestCase):
         self.assertEqual('/winhome/user/projects/hello-world', res.dirs.project_dir)
 
     def test_resolve_nested_update(self):
-        config = '''{
+        config = u'''{
           "project_name": "hello-world",
           "dirs": {
             "home_dir": "/home/user",
@@ -138,7 +138,7 @@ class TestYamlDict(unittest.TestCase):
         self.assertEqual('/home/user/projects/hello-world/databases/items.sqlite', res.databases['items'])
 
     def test_argparse(self):
-        config = '''{
+        config = u'''{
           "output_dir": "output-{parameters.parameter1}-{parameters.parameter2}",
           "parameters": {
             "parameter1": "a",
