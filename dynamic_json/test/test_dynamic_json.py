@@ -1,7 +1,7 @@
 import unittest
 
 from dynamic_json import load
-from cStringIO import StringIO
+from io import StringIO
 
 
 class TestDynamicJson(unittest.TestCase):
@@ -35,10 +35,10 @@ class TestDynamicJson(unittest.TestCase):
         cfg = load(fileobj)
         fileobj.close()
 
-        self.assertEquals(set(cfg), {'project_name', 'dirs', 'exes', 'bases_per_chromosome'})
-        self.assertEquals(cfg.project_name, 'hello-world')
-        self.assertEquals(cfg.dirs.home, '/home/user')
-        self.assertEquals(cfg.dirs.venv, '/home/user/venvs/hello-world')
+        self.assertEqual(set(cfg), {'project_name', 'dirs', 'exes', 'bases_per_chromosome'})
+        self.assertEqual(cfg.project_name, 'hello-world')
+        self.assertEqual(cfg.dirs.home, '/home/user')
+        self.assertEqual(cfg.dirs.venv, '/home/user/venvs/hello-world')
 
 if __name__ == '__main__':
     import sys
